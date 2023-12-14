@@ -77,7 +77,7 @@ This code of conduct and its related procedures also applies to unacceptable beh
 
 ## 10. Contact info
 
-solo.to/pixe1ated
+https://linktr.ee/pixe1ated
 
 ## 11. License and attribution
 
