@@ -1,54 +1,93 @@
-# Function to calculate the circumference of an octagon
-def calculate_circumference(side_length)
+# Struct to represent an octagon
+class Octagon
+  attr_accessor :side_length
+
+  def initialize(side_length)
+    @side_length = side_length
+  end
+
+  # Calculate the circumference of the octagon
+  def calculate_circumference
     return side_length * 8
   end
-  
-  # Function to check if the user's answer is correct
-  def check_answer(user_answer, correct_answer)
-    if user_answer.round(2) == correct_answer
-      puts "Correct! Well done."
-    else
-      puts "Incorrect. The correct answer is #{correct_answer}."
-    end
+
+  # Calculate the area of the octagon
+  def calculate_area
+    return 2 * (1 + Math.sqrt(2)) * side_length**2
   end
-  
-  # Function to validate the user's input
-  def validate_input(input)
-    if input.downcase == 'exit'
-      return 'exit'
-    elsif input.to_f.to_s == input || input.to_i.to_s == input
-      return input.to_f
-    else
-      return 'invalid'
-    end
+end
+
+# Function to display the main menu
+def display_main_menu
+  puts "========== Octagon Calculator =========="
+  puts "1. Calculate Circumference"
+  puts "2. Calculate Area"
+  puts "3. View History"
+  puts "4. Exit"
+  print "Enter your choice (1-4): "
+end
+
+# Function to log calculations to history
+def log_calculation(type, side_length, result)
+  File.open("calculator_history.txt", "a") do |file|
+    file.puts("#{Time.now}: #{type.capitalize} Calculation - Side Length: #{side_length}, Result: #{result}")
   end
-  
-  # Main program loop
-  loop do
+end
+
+# Function to calculate and display the circumference
+def calculate_circumference(octagon)
+  circumference = octagon.calculate_circumference
+  puts "Circumference of the octagon with side length #{octagon.side_length}: #{circumference}"
+  log_calculation("circumference", octagon.side_length, circumference)
+end
+
+# Function to calculate and display the area
+def calculate_area(octagon)
+  area = octagon.calculate_area
+  puts "Area of the octagon with side length #{octagon.side_length}: #{area}"
+  log_calculation("area", octagon.side_length, area)
+end
+
+# Function to display the calculation history
+def display_history
+  puts "========== Calculation History =========="
+  if File.exist?("calculator_history.txt")
+    File.readlines("calculator_history.txt").each { |line| puts line }
+  else
+    puts "No history available."
+  end
+end
+
+# Main program loop
+loop do
+  display_main_menu
+  user_choice = gets.chomp.to_i
+
+  case user_choice
+  when 1, 2
     # Ask the user for the side length of the octagon
-    print "Enter the side length of the octagon (or 'exit' to quit): "
-    input = gets.chomp
-  
-    # Validate the user's input
-    side_length = validate_input(input)
-  
-    # Exit the program if the user enters 'exit'
-    break if side_length == 'exit'
-  
-    # Ask the user to re-enter the side length if the input is invalid
-    if side_length == 'invalid'
-      puts "Invalid input. Please enter a number."
+    print "Enter the side length of the octagon: "
+    side_length = gets.chomp.to_f
+
+    octagon = Octagon.new(side_length)
+
+    if octagon.side_length <= 0
+      puts "Invalid side length. Please enter a positive number."
       next
     end
-  
-    # Calculate the circumference
-    circumference = calculate_circumference(side_length)
-  
-    # Ask the user to calculate the circumference
-    puts "Calculate the circumference of an octagon with side length #{side_length}."
-    print "Enter your answer: "
-    user_answer = gets.chomp.to_f
-    check_answer(user_answer, circumference)
+
+    case user_choice
+    when 1
+      calculate_circumference(octagon)
+    when 2
+      calculate_area(octagon)
+    end
+  when 3
+    display_history
+  when 4
+    puts "Thank you for using the advanced octagon calculator. Goodbye!"
+    break
+  else
+    puts "Invalid choice. Please enter a number between 1 and 4."
   end
-  
-  puts "Thank you for using the octagon calculator. Goodbye!"
+end
