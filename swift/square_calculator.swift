@@ -1,45 +1,71 @@
 import Foundation
 
-// Function to calculate the circumference (perimeter) of a square
-func calculateCircumference(sideLength: Double) -> Double {
-    return 4 * sideLength
+// Struct to represent a square
+struct Square {
+    var sideLength: Double
+
+    // Computed property to calculate perimeter (circumference)
+    var perimeter: Double {
+        return 4 * sideLength
+    }
+
+    // Computed property to calculate area
+    var area: Double {
+        return pow(sideLength, 2)
+    }
 }
 
-// Function to calculate the area of a square
-func calculateArea(sideLength: Double) -> Double {
-    return pow(sideLength, 2)
+// Function to display a welcome message
+func displayWelcomeMessage() {
+    print("Welcome to the Extended Square Calculator!")
+    print("This program allows you to calculate the perimeter and area of a square.")
+    print("Let's get started!\n")
 }
 
-// Function to get the side length from the user
+// Function to get the side length from the user with error handling
 func getSideLength() -> Double {
-    print("Enter the side length of the square:")
-    if let input = readLine(), let sideLength = Double(input) {
-        return sideLength
-    } else {
-        print("Invalid input. Please enter a number.")
-        return getSideLength()
+    while true {
+        print("Enter the side length of the square:")
+        if let input = readLine(), let sideLength = Double(input), sideLength > 0 {
+            return sideLength
+        } else {
+            print("Invalid input. Please enter a positive number.")
+        }
     }
 }
 
 // Main program loop
-while true {
-    // Get the side length from the user
-    let sideLength = getSideLength()
+func runSquareCalculator() {
+    while true {
+        // Get the side length from the user
+        let sideLength = getSideLength()
 
-    // Calculate the circumference and area
-    let circumference = calculateCircumference(sideLength: sideLength)
-    let area = calculateArea(sideLength: sideLength)
+        // Create a square instance
+        let square = Square(sideLength: sideLength)
 
-    // Print the results
-    print("For a square with side length \(sideLength):")
-    print("The circumference (perimeter) is \(circumference)")
-    print("The area is \(area)")
+        // Print the results
+        print("\nFor a square with side length \(square.sideLength):")
+        print(" - Perimeter: \(square.perimeter)")
+        print(" - Area: \(square.area)")
 
-    // Ask the user if they want to continue
-    print("Do you want to calculate for another square? (yes/no)")
-    if let input = readLine(), input.lowercased() == "no" {
-        break
+        // Ask the user if they want to continue
+        print("\nDo you want to calculate for another square? (yes/no)")
+        if let input = readLine(), input.lowercased() == "no" {
+            break
+        }
     }
 }
 
-print("Thank you for using the square calculator. Goodbye!")
+// Function to display a farewell message
+func displayFarewellMessage() {
+    print("\nThank you for using the Extended Square Calculator. Goodbye!")
+}
+
+// Main execution starts here
+displayWelcomeMessage()
+
+// Run the square calculator
+runSquareCalculator()
+
+// Display farewell message
+displayFarewellMessage()
