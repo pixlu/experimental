@@ -1,6 +1,8 @@
 use std::io;
 
 fn main() {
+    let mut choice_history: Vec<String> = Vec::new();
+
     loop {
         println!("List of available hosting providers and domain registrars:");
         println!("a) Namecheap");
@@ -15,7 +17,8 @@ fn main() {
         println!("j) TimeWeb");
         println!("k) Porkbun");
         println!("l) MarkMonitor");
-        println!("Enter the letter of a provider, or type 'exit' to end:");
+        println!("m) GoDaddy"); 
+        println!("Enter the letter of a provider, type '/history' to view your choices, type '/clear' to clear history, or type 'exit' to end:");
 
         let mut input = String::new();
         io::stdin().read_line(&mut input).expect("Failed to read line");
@@ -25,7 +28,16 @@ fn main() {
         if choice == "exit" {
             println!("Goodbye!");
             break;
+        } else if choice == "/history" {
+            print_history(&choice_history);
+            continue;
+        } else if choice == "/clear" {
+            choice_history.clear();
+            println!("History cleared.");
+            continue;
         }
+
+        choice_history.push(choice.clone()); // Add the choice to history
 
         match choice.as_str() {
             "a" | "namecheap" => print_explanation("Namecheap", "Namecheap is a popular domain registrar and web hosting provider known for its affordability and user-friendly services."),
@@ -34,17 +46,29 @@ fn main() {
             "d" | "tucows" => print_explanation("Tucows", "Tucows is a domain registrar and internet services company providing domain registration and other online services."),
             "e" | "amazon aws" | "aws" => print_explanation("Amazon AWS", "Amazon AWS (Amazon Web Services) is a comprehensive cloud computing platform offering various services, including hosting and domain registration."),
             "f" | "hostinger" => print_explanation("Hostinger", "Hostinger is a web hosting provider offering affordable hosting solutions with a focus on simplicity and performance."),
-            "g" | "ddos" | "ddos-guard" => print_explanation("DDoS-Guard", "DDoS-Guard is a cybersecurity company specializing in DDoS protection and secure hosting."),
+            "g" | "ddo" | "ddos-guard" => print_explanation("DDoS-Guard", "DDoS-Guard is a cybersecurity company specializing in DDoS protection and secure hosting."),
             "h" | "rucenter" => print_explanation("RU-Center", "RU-Center is one of the largest domain registrars and hosting providers in Russia, offering a range of internet services."),
             "i" | "reg" | "reg.ru" => print_explanation("REG.RU", "REG.RU is a Russian domain registrar and hosting provider offering a variety of online services."),
             "j" | "timeweb" => print_explanation("TimeWeb", "TimeWeb is a hosting provider known for its reliable hosting solutions and a wide range of services."),
             "k" | "porkbun" => print_explanation("Porkbun", "Porkbun is a domain registrar known for its straightforward pricing, free WHOIS privacy, and easy domain management."),
             "l" | "markmonitor" => print_explanation("MarkMonitor", "MarkMonitor is a brand protection company providing domain management and anti-counterfeiting solutions."),
-            _ => println!("Invalid input. Please enter a valid letter or 'exit'."),
+            "m" | "godaddy" => print_explanation("GoDaddy", "GoDaddy is a popular domain registrar and web hosting provider known for its domain registration services and additional online tools."),
+            _ => println!("Invalid input. Please enter a valid letter, '/history', '/clear', or 'exit'."),
         }
     }
 }
 
 fn print_explanation(provider: &str, explanation: &str) {
     println!("Information for {}: {}", provider, explanation);
+}
+
+fn print_history(choice_history: &Vec<String>) {
+    if choice_history.is_empty() {
+        println!("No history available.");
+    } else {
+        println!("Choice History:");
+        for (index, item) in choice_history.iter().enumerate() {
+            println!("{}. {}", index + 1, item);
+        }
+    }
 }
