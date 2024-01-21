@@ -1,6 +1,6 @@
 # Security Policy
 
-## security issues? 
+## security issues? you found something?
 
 If you found a bug or a vulnerability, let me know on GitHub. Submit it via GitHub Issues: https://github.com/pixe1ated1/experimental/issues.
 
