@@ -6,18 +6,15 @@ class Octagon
     @side_length = side_length
   end
 
-  # Calculate the circumference of the octagon
   def calculate_circumference
     return side_length * 8
   end
 
-  # Calculate the area of the octagon
   def calculate_area
     return 2 * (1 + Math.sqrt(2)) * side_length**2
   end
 end
 
-# Function to display the main menu
 def display_main_menu
   puts "========== Octagon Calculator =========="
   puts "1. Calculate Circumference"
@@ -27,28 +24,24 @@ def display_main_menu
   print "Enter your choice (1-4): "
 end
 
-# Function to log calculations to history
 def log_calculation(type, side_length, result)
   File.open("calculator_history.txt", "a") do |file|
     file.puts("#{Time.now}: #{type.capitalize} Calculation - Side Length: #{side_length}, Result: #{result}")
   end
 end
 
-# Function to calculate and display the circumference
 def calculate_circumference(octagon)
   circumference = octagon.calculate_circumference
   puts "Circumference of the octagon with side length #{octagon.side_length}: #{circumference}"
   log_calculation("circumference", octagon.side_length, circumference)
 end
 
-# Function to calculate and display the area
 def calculate_area(octagon)
   area = octagon.calculate_area
   puts "Area of the octagon with side length #{octagon.side_length}: #{area}"
   log_calculation("area", octagon.side_length, area)
 end
 
-# Function to display the calculation history
 def display_history
   puts "========== Calculation History =========="
   if File.exist?("calculator_history.txt")
